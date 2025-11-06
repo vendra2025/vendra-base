@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  CLIENTE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          UserRole  @default(CLIENTE)
+  active        Boolean   @default(true)
+  apiToken      String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relações
+  knowledgeBases KnowledgeBase[]
+  apiLogs        ApiLog[]
+
+  @@index([email])
+  @@index([apiToken])
+}
+
+model KnowledgeBase {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String   @default("Minha Base de Conhecimento")
+  columns     Json     // Array de: {id, name, type, order}
+  data        Json     // Array de objetos com os dados
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ApiLog {
+  id          String   @id @default(cuid())
+  userId      String
+  endpoint    String
+  method      String
+  query       String?
+  statusCode  Int
+  responseTime Int     // em ms
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}

@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%; /* #0a0a0a */
+    --foreground: 0 0% 100%; /* #ffffff */
+    --card: 0 0% 10%; /* #1a1a1a */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 160 84% 39%; /* #10b981 - Verde Vendra */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 64%; /* #a3a3a3 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 160 80% 52%; /* #34d399 - Verde claro */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%; /* #ef4444 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 160 84% 39%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .vendra-gradient {
+    @apply bg-gradient-to-r from-primary to-accent;
+  }
+
+  .vendra-btn-primary {
+    @apply vendra-gradient text-white hover:opacity-90 transition-opacity;
+  }
+}
